@@ -17,7 +17,7 @@ class Plan extends Model
         'price',
     ];
 
-    protected $primaryKey = 'plans_id';
+    // protected $primaryKey = 'plan_id';
 
     public function invoices(): HasMany
     {

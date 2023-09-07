@@ -63,7 +63,8 @@ class PlanResource extends Resource
                 TextColumn::make('name')
                 ->wrap()
                 ->label('Nombre')
-                ->searchable(),
+                ->searchable()
+                ->sortable(),
 
                 TextColumn::make('download_speed')
                 ->label('V/Bajada')
@@ -88,16 +89,33 @@ class PlanResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make()
+                ->label('Ver')
+                ->color('info')
+                ->form([
+                    TextInput::make('name')
+                    ->label('Nombre'),
+                    TextInput::make('price')
+                    ->label('Precio'),
+                    TextInput::make('download_speed')
+                    ->label('Velocidad de bajada'),
+                    TextInput::make('upload_speed')
+                    ->label('Velocidad de subida'),
+                ]),
+
+
                 Tables\Actions\EditAction::make()
                 ->label('Editar')
                 ->icon('heroicon-o-pencil-square'),
                 
                 Tables\Actions\DeleteAction::make('delete')
-                ->label('Eliminar')
-                ->icon('heroicon-o-trash')
-                ->color('warning')
-                ->requiresConfirmation()
-                ->action(fn (Plan $record) => $record->delete())
+              ->label('Eliminar')
+              ->requiresConfirmation()
+              ->action(fn (Plan $record) => $record->delete())
+              ->color('danger')
+              ->modalHeading('Eliminar Ticket?')
+              ->modalDescription('¿Estás seguro de que deseas eliminar estas publicaciones? Esto no se puede deshacer.')
+             ->modalSubmitActionLabel('Si, borrarlos')
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -112,7 +130,7 @@ class PlanResource extends Resource
     public static function getRelations(): array
     {
         return [
-            // RelationManagers\SubscriptionRelationManager::class,
+            
         ];
     }
     

@@ -13,7 +13,7 @@ class Installation extends Model
     protected $fillable = [
         'installation_date',
         'speed',
-        'plan_plans_id',
+        'plan_id',
         'address',
         'neighborhood',
         'client_id',
@@ -33,7 +33,7 @@ class Installation extends Model
 
     public function plans(): BelongsTo
     {
-        return $this->belongsTo(Plan::class,'plan_plans_id');
+        return $this->belongsTo(Plan::class,'plan_id');
     }
 
     public function clients(): BelongsTo

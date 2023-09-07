@@ -15,7 +15,6 @@ class Client extends Model
         'lastname',
         'phone',
         'street',
-        'apply_invoice',
     ];
 
     public function installations(): HasMany

@@ -21,9 +21,6 @@ class ClientFactory extends Factory
             'lastname' =>$this->faker->lastName(),
             'phone' =>$this->faker->phoneNumber(),
             'street' =>$this->faker->streetAddress(),
-            'apply_invoice' =>$this->faker->boolean(),
-
-    
         ];
 
     }

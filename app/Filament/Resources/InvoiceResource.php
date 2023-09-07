@@ -5,8 +5,10 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\InvoiceResource\Pages;
 use App\Filament\Resources\InvoiceResource\RelationManagers;
 use App\Models\Invoice;
+use DatePeriod;
 use Filament\Forms;
 use Filament\Forms\Components\Checkbox;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -33,22 +35,29 @@ class InvoiceResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('period')
+                Select::make('month')
+                ->options(self::$model::MONTH)
+                ->label('Mes')
                 ->required()
-                ->maxLength(255)
-                ->label('Periodo'),
+                ->placeholder('Escoge una opción'),
 
-                TextInput::make('price')
+                Select::make('year')
+                ->options(self::$model::YEAR)
+                ->label('Año')
+                ->required()
+                ->placeholder('Escoge una opción'),
+
+                TextInput::make('total_to_pay')
                 ->required()
                 ->maxLength(255)
                 ->label('Precio')
                 ->numeric(),
 
-                Select::make('plan_plans_id')
-                ->Relationship('plans','name')
+                Select::make('subscription_id')
+                ->Relationship('sunscriptions','id')
                 ->required()
                 ->placeholder('Escoge una opción')
-                ->label('Plan'),
+                ->label('Subscripción'),
 
                 TextInput::make('state')
                 ->label("Estado")
@@ -113,6 +122,7 @@ class InvoiceResource extends Resource
     {
         return [
             'index' => Pages\ListInvoices::route('/'),
+            // 'generate' => Pages\GenerateInvoice::route('/generate'),
             'create' => Pages\CreateInvoice::route('/create'),
             'edit' => Pages\EditInvoice::route('/{record}/edit'),
         ];

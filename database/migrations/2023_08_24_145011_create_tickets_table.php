@@ -19,10 +19,8 @@ return new class extends Migration
             $table->string('priority');
             $table->string('status')->default(Ticket::STATUS['Abierto']);
             $table->boolean('is_resolved')->default(false);
-            $table->text('comment')->nullable();
             $table->foreignId('assigned_by')->constrained('users');
             $table->foreignId('assigned_to')->constrained('users');
-
             $table->timestamps();
         });
     }

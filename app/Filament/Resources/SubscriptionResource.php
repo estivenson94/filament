@@ -39,7 +39,7 @@ class SubscriptionResource extends Resource
                 ->placeholder('Escoge una opción')
                 ->label('Cliente'),
 
-                Select::make('plan_plans_id')
+                Select::make('plan_id')
                 ->Relationship('plans','name')
                 ->required()
                 ->placeholder('Escoge una opción')
@@ -48,8 +48,14 @@ class SubscriptionResource extends Resource
                 Checkbox::make('state')
                 ->label('Estado'),
 
+                Checkbox::make('apply_invoice')
+                ->label('Aplica Factura'),
+
                 TextInput::make('discount')
+                ->minValue(1)
+                ->numeric()
                 ->label("Descuento")
+                
             ]);
     }
 
@@ -73,22 +79,58 @@ class SubscriptionResource extends Resource
                 CheckboxColumn::make('state')
                 ->label('Estado'),
 
+                CheckboxColumn::make('apply_invoice')
+                ->label('Aplica Factura'),
+
                 TextColumn::make('discount')
                 ->sortable()
-                ->label('Descuento'),
+                ->label('Descuento')
+                ->searchable()
+                ->numeric(
+                    decimalPlaces: 0,
+                    decimalSeparator: ',',
+                    thousandsSeparator: '.',
+                )
+                ->sortable(),
 
             ])
             ->filters([
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make()
+                ->label('Ver')
+                ->color('info')
+                ->form([
+                    Select::make('client_id')
+                    ->Relationship('clients','name')
+                    ->label('Nombre'),
+                    Select::make('client_id')
+                    ->Relationship('clients','lastname')
+                    ->label('Apellido'),
+                    Select::make('plan_id')
+                    ->Relationship('plans','name')
+                    ->label('Plan'),
+                    Checkbox::make('state')
+                    ->label('Estado'),
+                    Checkbox::make('apply_invoice')
+                    ->label('Aplica Factura'),
+                    TextInput::make('discount')
+                    ->label('Descuento'),
+                ])->disabledForm(),
+
+
                 Tables\Actions\EditAction::make()
               ->label('Editar'),
 
-              Action::make('delete')
+              Tables\Actions\DeleteAction::make('delete')
               ->label('Eliminar')
               ->requiresConfirmation()
               ->action(fn (Subscription $record) => $record->delete())
+              ->color('danger')
+              ->modalHeading('Eliminar Subscripción?')
+              ->modalDescription('¿Estás seguro de que deseas eliminar estas publicaciones? Esto no se puede deshacer.')
+             ->modalSubmitActionLabel('Si, borrarlos')
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

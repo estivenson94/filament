@@ -47,10 +47,6 @@ class ClientResource extends Resource
                 ->maxLength(255)
                 ->label('Dirección'),
 
-                Checkbox::make('apply_invoice')
-                ->label('Activo')
-                // agregar columnas
-
             ]);
             
     }
@@ -81,21 +77,33 @@ class ClientResource extends Resource
                 ->label('Dirección')
                 ->searchable(),
 
-                CheckboxColumn::make('apply_invoice')
-                ->label('Aplica factura')
-                ->sortable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
+
+                Tables\Actions\ViewAction::make()
+                ->label('Ver')
+                ->color('info')
+                ->form([
+                    TextInput::make('name'),
+                    TextInput::make('lastname'),
+                    TextInput::make('phone'),
+                    TextInput::make('street'),
+                ]),
+
                 Tables\Actions\EditAction::make()
               ->label('Editar'),
 
-              Action::make('delete')
+              Tables\Actions\DeleteAction::make('delete')
               ->label('Eliminar')
               ->requiresConfirmation()
               ->action(fn (Client $record) => $record->delete())
+              ->color('danger')
+              ->modalHeading('Eliminar Cliente ?')
+              ->modalSubheading('¿Estás seguro de que deseas eliminar estas publicaciones? Esto no se puede deshacer.')
+             ->modalButton('Si, borrarlos')
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

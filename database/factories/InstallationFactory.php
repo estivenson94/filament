@@ -24,7 +24,7 @@ class InstallationFactory extends Factory
         return [
             'installation_date' =>$this->faker->date(),
             'speed' => $this->faker->randomElement(['300 MB / 100 MB', '100 MB / 50 MB', '20 MB / 50 MB', '40 MB / 15 MB','10 MB / 40 MB']),
-            'plan_plans_id' => Plan::factory(),
+            'plan_id' => Plan::factory(),
             'address' =>$this->faker->streetAddress(),
             'neighborhood' =>$this->faker->citySuffix(),
             'client_id' => Client::factory(),

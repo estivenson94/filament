@@ -18,7 +18,8 @@ return new class extends Migration
             $table->foreignIdFor(Client::class);
             $table->foreignIdFor(Plan::class);
             $table->boolean('state');
-            $table->string('discount',255)->nullable();
+            $table->decimal('discount',65,0)->nullable();
+            $table->boolean('apply_invoice');
             $table->timestamps();
         });
     }

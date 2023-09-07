@@ -18,7 +18,7 @@ class InstallationRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('plan_plans_id')
+                Forms\Components\TextInput::make('plan_id')
                     ->required()
                     ->maxLength(255),
             ]);
@@ -27,9 +27,9 @@ class InstallationRelationManager extends RelationManager
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('plan_plans_id')
+            ->recordTitleAttribute('plan_id')
             ->columns([
-                Tables\Columns\TextColumn::make('plan_plans_id'),
+                Tables\Columns\TextColumn::make('plan_id'),
             ])
             ->filters([
                 //

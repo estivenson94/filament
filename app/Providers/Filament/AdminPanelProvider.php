@@ -19,7 +19,11 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 
+
 use Filament\Navigation\NavigationGroup;
+use Filament\Support\Assets\Theme;
+use Hasnayeen\Themes\Filament\Pages\Themes;
+use Illuminate\Foundation\Events\VendorTagPublished;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -27,6 +31,9 @@ class AdminPanelProvider extends PanelProvider
     {
         return $panel
 
+            
+
+        
             
             ->default()
             ->id('admin')

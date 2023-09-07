@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('lastname',255);
             $table->string('phone',20);
             $table->string('street',255);
-            $table->boolean('apply_invoice');
             $table->timestamps();
         });
     }

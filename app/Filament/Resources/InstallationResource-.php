@@ -47,7 +47,7 @@ class InstallationResource extends Resource
                 ->maxLength(255)
                 ->label('Velocidad'),
 
-                Select::make('plan_plans_id')
+                Select::make('plan_id')
                 ->Relationship('plans','name')
                 ->required()
                 ->label('Plan')

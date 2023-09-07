@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 use App\Filament\Resources\TicketResource\Pages;
 use App\Models\Ticket;
+use Filament\Actions\ViewAction;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -31,6 +32,8 @@ class TicketResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
+
+
             ->columns(1)
             ->schema([
                 TextInput::make('title')
@@ -59,11 +62,7 @@ class TicketResource extends Resource
                 ->nullable()
                 ->label('Descripción'),
 
-                Textarea::make('comment')
-                ->nullable()
-                ->label('Comentarios'),
-
-               
+                
                 
             ]);
     }
@@ -73,6 +72,8 @@ class TicketResource extends Resource
         return $table
                 ->emptyStateHeading("Aún no hay publicaciones.")
                 ->emptyStateDescription('Crea un ticket para empezar.')
+
+             
             ->columns([
                 TextColumn::make('title')
                 ->searchable()
@@ -104,10 +105,10 @@ class TicketResource extends Resource
                 ->sortable()
                 ->label('Asignado por'),
 
-                TextInputColumn::make('comment')
+                TextColumn::make('description')
                 ->toggleable(isToggledHiddenByDefault: false)
                 ->searchable()
-                ->label('Comentario'),
+                ->label('Descripción'),
 
                 
             ])
@@ -119,14 +120,37 @@ class TicketResource extends Resource
                     ->button()
                     ->label('Ocultar columnas'),
             )
+            ->headerActions([
+                
+            ])
+
             ->actions([
+
+                Tables\Actions\ViewAction::make()
+                ->label('Ver')
+                ->color('info')
+                ->form([
+                    TextInput::make('title')
+                    ->label('Nombre'),
+                    TextInput::make('status')
+                    ->label('Estado'),
+                    TextInput::make('priority')
+                    ->label('Prioridad'),
+                    TextInput::make('description')
+                    ->label('Descripción'),
+                ]),
+
                 Tables\Actions\EditAction::make()
               ->label('Editar'),
-
-              Action::make('delete')
+            
+              Tables\Actions\DeleteAction::make('delete')
               ->label('Eliminar')
               ->requiresConfirmation()
               ->action(fn (Ticket $record) => $record->delete())
+              ->color('danger')
+              ->modalHeading('Eliminar Ticket?')
+              ->modalDescription('¿Estás seguro de que deseas eliminar estas publicaciones? Esto no se puede deshacer.')
+             ->modalSubmitActionLabel('Si, borrarlos')
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
